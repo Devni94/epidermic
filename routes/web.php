@@ -21,7 +21,7 @@ Route::get('hello', function () {
 //user routes
 
 Route::post('signUp', [
-    'uses' => 'user_Controller@signUp',
+    'uses' => 'API_Controller@signUp',
     'as' => 'signUp']
 );
 

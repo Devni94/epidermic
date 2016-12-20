@@ -6,7 +6,7 @@
  * Time: 6:05 PM
  */
 
-namespace app\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -31,7 +31,7 @@ class API_controller extends Controller{
         $obj = new \stdClass();
         $obj->message = $message;
 
-        return $this->apiSendResponse($obj); 
+        return $this->apiSendResponse($obj);
     }
     
 
@@ -39,11 +39,24 @@ class API_controller extends Controller{
     {
         $requestObject = $request->get('data');
         $register = $this->objectDeserialize($requestObject);
+
+        //$register->first_name;
+        //$register->first_name);
+
         $first_name = $register->first_name;
         $last_name = $register->last_name;
         $email = $register->email;
         $password = $register->password;
-        $role = $register->user_role;
+        $role = $register->role;
+        $registration_no = null;
+
+//        $first_name = $request->input("first_name");
+//        $last_name = $request->input("last_name");
+//        $email = $request->input("email");
+//        $password = $request->input("password");
+//        $role = $request->input("role");
+//        $role = $request->input("role");
+//        $email =
 
         if($role == "doctor" or $role == "phi")
         {
@@ -56,20 +69,29 @@ class API_controller extends Controller{
 
             return $this->apiSendResponse($obj);
         }
-        if($role == "user"){
-            user_Controller::signUp($first_name,$last_name,$email,$password);
-        }
-        elseif ($role == "doctor"){
-            doctor_Controller::signUp($first_name,$last_name,$email,$password,$registration_no);
-        }
         else{
-            phi_Controller::signUp($first_name,$last_name,$email,$password,$registration_no);
+            if($role == "user"){
+                $user = new user_Controller();
+                $user->signUp($first_name,$last_name,$email,$password);
+            }
+            elseif($role == "doctor"){
+                $user = new doctor_Controller();
+                $user->doctor_signUp($first_name,$last_name,$email,$password,$registration_no);
+            }
+
+            else{
+                $user = new phi_Controller();
+                $user->phi_signUp($first_name,$last_name,$email,$password,$registration_no);
+            }
         }
+
 
     }
 
     public function isUserExists($email){
-        if (in_array($email,(DB::select('select email from user')))){
+        $query = DB::select("select email from user where email='".$email."'");
+
+        if (sizeof($query)==1){
             return true;
         }
         else{
@@ -78,7 +100,7 @@ class API_controller extends Controller{
     }
 
     public function signIn(){
-        
+
     }
 
 }
