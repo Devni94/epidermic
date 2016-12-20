@@ -20,23 +20,23 @@ Route::get('hello', function () {
 
 //user routes
 
-Route::post('add_user', [
-    'uses' => 'Public_User_Controller@add_user',
-    'as' => 'add_user']
+Route::post('signUp', [
+    'uses' => 'user_Controller@signUp',
+    'as' => 'signUp']
 );
 
 Route::post('update_first_name',[
-    'uses' =>'Public_User_Controller@update_first_name',
+    'uses' =>'user_Controller@update_first_name',
     'as' => 'update_first_name']
 );
 
 Route::post('update_last_name',[
-        'uses' =>'Public_User_Controller@update_last_name',
+        'uses' =>'user_Controller@update_last_name',
         'as' => 'update_last_name']
 );
 
 Route::post('update_password',[
-        'uses' =>'Public_User_Controller@update_password',
+        'uses' =>'user_Controller@update_password',
         'as' => 'update_password']
 );
 

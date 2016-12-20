@@ -23,10 +23,17 @@ class API_controller extends Controller{
     {
         return json_decode($text);
     }
-    protected function apiSendResponse($object){
+    public function apiSendResponse($object){
         $response = new Response($this->objectSerialize($object));
         return $response;
     }
+    public function responseObj($message){
+        $obj = new \stdClass();
+        $obj->message = $message;
+
+        return $this->apiSendResponse($obj); 
+    }
+    
 
     public function signUp(Request $request)
     {
@@ -45,13 +52,19 @@ class API_controller extends Controller{
 
         if ($this->isUserExists($email)){
             $obj = new \stdClass();
-            $obj->status = false;
             $obj->message = "Email address already exists";
 
             return $this->apiSendResponse($obj);
         }
-        if($role == "doctor" or $role)
-        Public_User_Controller::add_user($first_name,$last_name,$email,$password);
+        if($role == "user"){
+            user_Controller::signUp($first_name,$last_name,$email,$password);
+        }
+        elseif ($role == "doctor"){
+            doctor_Controller::signUp($first_name,$last_name,$email,$password,$registration_no);
+        }
+        else{
+            phi_Controller::signUp($first_name,$last_name,$email,$password,$registration_no);
+        }
 
     }
 
@@ -62,6 +75,10 @@ class API_controller extends Controller{
         else{
             return false;
         }
+    }
+
+    public function signIn(){
+        
     }
 
 }
