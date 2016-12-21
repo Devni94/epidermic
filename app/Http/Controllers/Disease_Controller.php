@@ -37,7 +37,7 @@ class Disease_Controller extends Controller{
         $causes = $registerData->causes;
         $precautions= $registerData->precautions;
         $first_aid = $registerData ->first_aid;
-        $affected = DB::update('Update details set symptoms = ?, causes = ?, precautions = ?, first_aid = ?, email=? where disease_name = ?',$symptoms, $causes, $precautions, $first_aid, $email, $disease_name);
+        $affected = DB::update('Update details set symptoms = ?, causes = ?, precautions = ?, first_aid = ?, email=? where disease_name = ?',[$symptoms, $causes, $precautions, $first_aid, $email, $disease_name]);
         return true;
     }
 

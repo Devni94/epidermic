@@ -191,6 +191,7 @@ class API_controller extends Controller{
                     $temp->title=$title;
 
                     $disease_array[] = $temp;
+
                 }
                 $obj->data = $disease_array;
                 return $this->apiSendResponse($obj);
@@ -200,7 +201,7 @@ class API_controller extends Controller{
                 $v_disease = new Disease_Controller();
                 $details = $v_disease->view_disease($registerData);
                 $disease_details = [];
-                foreach ($disease_details as $row){
+                foreach ($details as $row){
                     $temp = new \stdClass();
 
                     $symptoms = $row->symptoms;
@@ -208,11 +209,32 @@ class API_controller extends Controller{
                     $precautions = $row->precautions;
                     $first_aid = $row->first_aid;
 
+                    $temp->symptoms = $symptoms;
+                    $temp->causes = $causes;
+                    $temp->precautions = $precautions;
+                    $temp->first_aid = $first_aid;
+
                     $disease_details[]=$temp;
                 }
                 $obj->data = $disease_details;
                 return $this->apiSendResponse($obj);
 
+            }
+            elseif ($function_name == "view_unfilled_disease"){
+                $disease_ct = new Disease_Controller();
+                $unfilled = $disease_ct->view_unfilled_disease();
+                $disease_unfilled = [];
+                foreach ($unfilled as $row){
+                    $temp = new \stdClass();
+                    
+                    $title = $row->disease_name;
+
+                    $temp->title=$title;
+
+                    $disease_unfilled[]=$temp;
+                }
+                $obj->data = $disease_unfilled;
+                return $this->apiSendResponse($obj);
             }
         }
     }

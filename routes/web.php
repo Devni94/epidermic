@@ -49,6 +49,7 @@ Route::post('getRequest',[
         'as' => 'getRequest']
 );
 
+
 //disease routes
 /*
 Route::post('add_disease',[
