@@ -17,7 +17,7 @@ class Report_Controller extends Controller{
     public function add_Report_Disease($registerData, $email){
         $disease_name = $registerData -> disease_name;
         $location = $registerData->location;
-        DB::insert('INSERT INTO report_disease(email, disease_name, location)VALUES (?,?,?)',[$email,$disease_name, $location ]);
+        DB::insert('INSERT INTO report_disease(email, disease_name, location)VALUES (?,?,?)',[$email,$disease_name, $location]);
         return true;
     }
 
