@@ -44,8 +44,13 @@ Route::post('update_password',[
         'as' => 'update_password']
 );
 
-//disease routes
+Route::post('getRequest',[
+        'uses' => 'API_Controller@getRequest',
+        'as' => 'getRequest']
+);
 
+//disease routes
+/*
 Route::post('add_disease',[
         'uses' =>'Disease_Controller@add_disease',
         'as' => 'add_disease']
@@ -54,7 +59,7 @@ Route::post('add_disease',[
 Route::post('update_disease',[
         'uses' =>'Disease_Controller@update_disease',
         'as' => 'update_disease']
-);
+)
 
 //report routes
 
@@ -67,5 +72,5 @@ Route::get('get_location_diseases',[
         'uses' => 'Report_Controller@get_location_diseases',
         'as' => 'get_location_diseases']
 );
-
+*/
 

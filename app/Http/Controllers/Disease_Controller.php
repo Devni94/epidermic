@@ -14,9 +14,9 @@ use Symfony\Component\HttpFoundation\Request;
 use app\Http\Controllers\Response;
 
 class Disease_Controller extends Controller{
-    public static function add_disease(Request $request){
-        DB::insert('INSERT INTO disease (registration_no, title, location) VALUES 
-        (?,?,?)',[$request->input("title"),$request->input("location")]);
+    public static function add_disease($email,$data){
+        /*DB::insert('INSERT INTO disease (registration_no, title, location) VALUES
+        (?,?,?)',[$request->input("title"),$request->input("location")]);*/
         //$last_id = DB::getPdo()->lastInsertId();
         //return $last_id;
     }

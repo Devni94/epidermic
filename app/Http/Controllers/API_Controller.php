@@ -115,7 +115,14 @@ class API_controller extends Controller{
             }
 
         }
-        
+    }
+
+    public function signOut(Request $request){
+        $requestObject = $request->get('data');
+        $register = $this->objectDeserialize($requestObject);
+        $email = $register->email;
+        $token = $register->token;
+        $token = null;
     }
 
     public function isUserExists($email){
@@ -128,6 +135,33 @@ class API_controller extends Controller{
             return false;
         }
     }
+    
+    public function getRequest(Request $request){
+        $requestObject = $request->get('data');
+        $register = $this->objectDeserialize($requestObject);
 
+        $requestData = $request->get('function_data');
+        $registerData = $this->objectDeserialize($requestData);
 
+        $email = $register->email;
+        $token = $register->token;
+        $function_name= $register->function_name;
+
+        
+        $query = DB::select("select * from user where email='".$email."' and token='".$token."'");
+
+        if(sizeof($query)==1){
+            if($function_name == "add_Report_Disease"){
+                $disease_report = new Report_Controller();
+                $disease_report->add_disease($email,$registerData);
+            }
+            elseif ($function_name == "update_disease"){
+                $details = new Disease_Controller();
+                $details->update_disease($registerData,$email);
+            }
+            elseif ($function_name == "location_disease"){
+                
+            }
+        }
+    }
 }
