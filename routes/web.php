@@ -24,6 +24,10 @@ Route::post('signUp', [
     'uses' => 'API_Controller@signUp',
     'as' => 'signUp']
 );
+Route::post('signIn', [
+        'uses' => 'API_Controller@signIn',
+        'as' => 'signIn']
+);
 
 Route::post('update_first_name',[
     'uses' =>'user_Controller@update_first_name',

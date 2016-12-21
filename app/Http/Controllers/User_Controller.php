@@ -11,7 +11,7 @@ namespace app\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Request;
-use app\Http\Controllers\API_Controller;
+use App\Http\Controllers\API_Controller;
 
 class user_Controller extends Controller{
     public function signUp($first_name,$last_name,$email,$password){
@@ -27,18 +27,21 @@ class user_Controller extends Controller{
         
     }
     
-    /*public function update_password(Request $request){
-        $affected = DB::update('update user set password = ? where email = ?', [$request->input("password"),$request->input("email")]);
-        API_controller::responseObj("successfully changed the password");
+    public function update_password(Request $request){
+        $affected = DB::update("update user set password = ? where email = ?", [$request->input("password"),$request->input("email")]);
+        $api = new API_Controller();
+        $api->responseObj("successfully changed the password");
     }
     
     public function update_first_name(Request $request){
         $affected = DB::update('update user set first_name = ? where email = ?', [$request->input("first_name"),$request->input("email")]);
-        API_controller::responseObj("successfully changed the first name");
+        $api = new API_Controller();
+        $api->responseObj("successfully changed the first name");
     }
     
     public function update_last_name(Request $request){
         $affected = DB::update('update user set last_name = ? where email = ?', [$request->input("last_name"),$request->input("email")]);
-        API_controller::responseObj("successfully changed the last name");
-    }*/
+        $api = new API_Controller();
+        $api->responseObj("successfully changed the last name");
+    }
 };

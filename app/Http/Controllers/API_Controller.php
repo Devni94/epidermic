@@ -30,7 +30,6 @@ class API_controller extends Controller{
     public function responseObj($message){
         $obj = new \stdClass();
         $obj->message = $message;
-
         return $this->apiSendResponse($obj);
     }
     
@@ -84,6 +83,32 @@ class API_controller extends Controller{
                 $user->phi_signUp($first_name,$last_name,$email,$password,$registration_no);
             }
         }
+
+
+    }
+
+    public function logIn(Request $request){
+
+        $requestObject = $request->get('data');
+        $register = $this->objectDeserialize($requestObject);
+        $email = $register->email;
+        $password = $register->password;
+        echo "22222";
+
+        if (!$this->isUserExists($email)){
+            $this->responseObj("User does not exist");
+        }
+        elseif($password == (DB::select("select password from user where email='".$email."'"))){
+            $token = md5($email+rand(0,1000));
+            echo "11111";
+            echo var_dump($token);
+            $obj = new \stdClass();
+            $obj->token = $token;
+            $this->apiSendResponse($obj);
+
+        }
+
+
 
 
     }
