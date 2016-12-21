@@ -17,7 +17,12 @@ class phi_Controller extends Controller{
         $token = $email.$token_t;
         DB::insert("INSERT INTO user(first_name, last_name, email, password, token)VALUES ('".$first_name."','".$last_name."','".$email."','".$password."','".$token."')");
         DB::insert("INSERT INTO phi(email, registration_no)VALUES ('".$email."','".$registration_no."')");
-        $api = new API_controller();
-        $api->responseObj("successfully signed up");
+        
+        $obj = new \stdClass();
+        $obj->token = $token;
+        $obj->status=true;
+        $obj->message = "Successfully Signed Up";
+        $api = new API_Controller();
+        return $api->apiSendResponse($obj);
     }
 }
