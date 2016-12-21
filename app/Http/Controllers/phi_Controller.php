@@ -13,8 +13,9 @@ use Illuminate\Support\Facades\DB;
 
 class phi_Controller extends Controller{
     public function phi_signUp($first_name,$last_name,$email,$password,$registration_no){
-        echo ($first_name);
-        DB::insert("INSERT INTO user(first_name, last_name, email, password)VALUES ('".$first_name."','".$last_name."','".$email."','".$password."')");
+        $token_t = md5(rand(0,1000));
+        $token = $email.$token_t;
+        DB::insert("INSERT INTO user(first_name, last_name, email, password, token)VALUES ('".$first_name."','".$last_name."','".$email."','".$password."','".$token."')");
         DB::insert("INSERT INTO phi(email, registration_no)VALUES ('".$email."','".$registration_no."')");
         $api = new API_controller();
         $api->responseObj("successfully signed up");

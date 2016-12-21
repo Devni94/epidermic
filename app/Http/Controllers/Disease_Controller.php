@@ -14,17 +14,33 @@ use Symfony\Component\HttpFoundation\Request;
 use app\Http\Controllers\Response;
 
 class Disease_Controller extends Controller{
-    public static function add_disease($email,$data){
-        /*DB::insert('INSERT INTO disease (registration_no, title, location) VALUES
-        (?,?,?)',[$request->input("title"),$request->input("location")]);*/
-        //$last_id = DB::getPdo()->lastInsertId();
-        //return $last_id;
+    /*
+    public function add_disease($disease_name){
+        DB::insert('INSERT INTO details(disease_name, symptoms, causes, precautions, first_aid, email)VALUES (?,?,?,?,?,?)',[$disease_name,NULL, NULL,NULL, NULL, NULL]);
     }
 
-    /*
-    public static function  update_disease(Request $request){
-        $affected = DB::update('Update  Disease set title = ?, symptoms = ?, postal_code = ?
-        where disease_id = ?;', [$request->input("title"),$request->input("symptoms"),$request->input("postal_code"),$request->input("last_id")]);
-    }
     */
+    public function view_disease($registerData){
+        $disease_name = $registerData -> disease_name;
+        $result = DB::select('Select * from disease_view where disease_name = ?', [$disease_name]);
+        return $result;
+    }
+
+    public function view_unfilled_disease(){
+        $result = DB::select('select disease_name from details where symptoms is null and causes is null and  precautions is null and  first_aid is null and  email is null');
+        return $result;
+    }
+
+    public function  update_disease($registerData, $email){
+        $disease_name = $registerData -> disease_name;
+        $symptoms = $registerData->symptoms;
+        $causes = $registerData->causes;
+        $precautions= $registerData->precautions;
+        $first_aid = $registerData ->first_aid;
+        $affected = DB::update('Update details set symptoms = ?, causes = ?, precautions = ?, first_aid = ?, email=? where disease_name = ?',$symptoms, $causes, $precautions, $first_aid, $email, $disease_name);
+        return true;
+    }
+
 };
+
+

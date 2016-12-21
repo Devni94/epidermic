@@ -15,10 +15,10 @@ use App\Http\Controllers\API_Controller;
 
 class user_Controller extends Controller{
     public function signUp($first_name,$last_name,$email,$password){
-        DB::insert("INSERT INTO user(first_name, last_name, email, password)VALUES ('".$first_name."','".$last_name."','".$email."','".$password."')");
+        $token_t = md5(rand(0,1000));
+        $token = $email.$token_t;
+        DB::insert("INSERT INTO user(first_name, last_name, email, password, token)VALUES ('".$first_name."','".$last_name."','".$email."','".$password."','".$token."')");
             //[$request->input("User_Name"),$request->input("Password"),$request->input("first_name"),$request->input("last_name")]);
-        $token = md5($email+rand(0,1000));
-
         $obj = new \stdClass();
         $obj->token = $token;
         $obj->message = "Successfully Signed Up";

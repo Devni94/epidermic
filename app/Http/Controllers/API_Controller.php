@@ -95,7 +95,10 @@ class API_controller extends Controller{
         $password = $register->password;
 
         if (!$this->isUserExists($email)){
-            $this->responseObj("User does not exist");
+            $obj = new \stdClass();
+            $obj->status = false;
+            $obj->message="User does not exist";
+            $this->apiSendResponse($obj);
 
         }
 
@@ -108,10 +111,14 @@ class API_controller extends Controller{
 
                 $obj = new \stdClass();
                 $obj->token = $token;
+                $obj->status = true;
                 $this->apiSendResponse($obj);
             }
             else{
-                $this->responseObj("Password Incorrect");
+                $obj = new \stdClass();
+                $obj->status = false;
+                $obj->message="Password Incorrect";
+                $this->apiSendResponse($obj);
             }
 
         }
@@ -151,16 +158,61 @@ class API_controller extends Controller{
         $query = DB::select("select * from user where email='".$email."' and token='".$token."'");
 
         if(sizeof($query)==1){
+            $obj = new \stdClass();
             if($function_name == "add_Report_Disease"){
                 $disease_report = new Report_Controller();
-                $disease_report->add_disease($email,$registerData);
+                $status = $disease_report->add_Report_Disease($registerData,$email);
+                if($status){
+                    $this->responseObj("Successfully added");
+                }
+                else{
+                    $this->responseObj("Adding disease failed");
+                }
             }
             elseif ($function_name == "update_disease"){
                 $details = new Disease_Controller();
-                $details->update_disease($registerData,$email);
+                $status = $details->update_disease($registerData,$email);
+                if($status){
+                    $this->responseObj("Successfully added the details");
+                }
+                else{
+                    $this->responseObj("Adding details failed");
+                }
             }
             elseif ($function_name == "location_disease"){
-                
+                $location = new Report_Controller();
+                $disease = $location-> get_location_disease($registerData);
+                $disease_array = [];
+                foreach ($disease as $row){
+                    $temp = new \stdClass();
+
+                    $title = $row->disease_name;
+
+                    $temp->title=$title;
+
+                    $disease_array[] = $temp;
+                }
+                $obj->data = $disease_array;
+                return $this->apiSendResponse($obj);
+
+            }
+            elseif($function_name == "view_disease"){
+                $v_disease = new Disease_Controller();
+                $details = $v_disease->view_disease($registerData);
+                $disease_details = [];
+                foreach ($disease_details as $row){
+                    $temp = new \stdClass();
+
+                    $symptoms = $row->symptoms;
+                    $causes = $row->causes;
+                    $precautions = $row->precautions;
+                    $first_aid = $row->first_aid;
+
+                    $disease_details[]=$temp;
+                }
+                $obj->data = $disease_details;
+                return $this->apiSendResponse($obj);
+
             }
         }
     }
