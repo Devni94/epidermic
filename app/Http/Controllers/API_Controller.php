@@ -87,30 +87,35 @@ class API_controller extends Controller{
 
     }
 
-    public function logIn(Request $request){
+    public function signIn(Request $request){
 
         $requestObject = $request->get('data');
         $register = $this->objectDeserialize($requestObject);
         $email = $register->email;
         $password = $register->password;
-        echo "22222";
 
         if (!$this->isUserExists($email)){
             $this->responseObj("User does not exist");
-        }
-        elseif($password == (DB::select("select password from user where email='".$email."'"))){
-            $token = md5($email+rand(0,1000));
-            echo "11111";
-            echo var_dump($token);
-            $obj = new \stdClass();
-            $obj->token = $token;
-            $this->apiSendResponse($obj);
 
         }
 
+        else{
+            $query = DB::select("select * from user where email='".$email."' and password='".$password."'");
+            if(sizeof($query)==1){
+                $token_t = md5(rand(0,1000));
+                $token = $email.$token_t;
+                $affected = DB::update("update user set token = ? where email = ?",[$token,$email]);
 
+                $obj = new \stdClass();
+                $obj->token = $token;
+                $this->apiSendResponse($obj);
+            }
+            else{
+                $this->responseObj("Password Incorrect");
+            }
 
-
+        }
+        
     }
 
     public function isUserExists($email){
@@ -124,8 +129,5 @@ class API_controller extends Controller{
         }
     }
 
-    public function signIn(){
-
-    }
 
 }
