@@ -109,10 +109,19 @@ class API_controller extends Controller{
                 $token_t = md5(rand(0,1000));
                 $token = $email.$token_t;
                 $affected = DB::update("update user set token = ? where email = ?",[$token,$email]);
+                $query = DB::select("select first_name,last_name from user where email='".$email."'");
+
+                $first_name= $query->first_name;
+                $last_name=$query->last_name;
 
                 $obj = new \stdClass();
                 $obj->token = $token;
                 $obj->status = true;
+                $obj->email = $email;
+                $obj->password = $password;
+                $obj->first_name=$first_name;
+                $obj->last_name=$last_name;
+
                 $this->apiSendResponse($obj);
             }
             else{
