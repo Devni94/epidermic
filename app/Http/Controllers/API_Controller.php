@@ -186,9 +186,9 @@ class API_controller extends Controller{
                 foreach ($disease as $row){
                     $temp = new \stdClass();
 
-                    $title = $row->disease_name;
+                    $disease_name = $row->disease_name;
 
-                    $temp->title=$title;
+                    $temp->disease_name=$disease_name;
 
                     $disease_array[] = $temp;
 
@@ -227,9 +227,9 @@ class API_controller extends Controller{
                 foreach ($unfilled as $row){
                     $temp = new \stdClass();
                     
-                    $title = $row->disease_name;
+                    $disease_name = $row->disease_name;
 
-                    $temp->title=$title;
+                    $temp->disease_name=$disease_name;
 
                     $disease_unfilled[]=$temp;
                 }
