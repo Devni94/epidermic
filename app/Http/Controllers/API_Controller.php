@@ -111,8 +111,8 @@ class API_controller extends Controller{
                 $affected = DB::update("update user set token = ? where email = ?",[$token,$email]);
                 $query = DB::select("select first_name,last_name from user where email='".$email."'");
 
-                $first_name= $query->first_name;
-                $last_name=$query->last_name;
+                $first_name= $query[0]->first_name;
+                $last_name=$query[0]->last_name;
 
                 $obj = new \stdClass();
                 $obj->token = $token;
