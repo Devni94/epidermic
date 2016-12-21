@@ -99,7 +99,7 @@ class API_controller extends Controller{
             $obj = new \stdClass();
             $obj->status = false;
             $obj->message="User does not exist";
-            $this->apiSendResponse($obj);
+             return $this->apiSendResponse($obj);
 
         }
 
@@ -122,13 +122,13 @@ class API_controller extends Controller{
                 $obj->first_name=$first_name;
                 $obj->last_name=$last_name;
 
-                $this->apiSendResponse($obj);
+                return $this->apiSendResponse($obj);
             }
             else{
                 $obj = new \stdClass();
                 $obj->status = false;
                 $obj->message="Password Incorrect";
-                $this->apiSendResponse($obj);
+                return $this->apiSendResponse($obj);
             }
 
         }
@@ -175,12 +175,12 @@ class API_controller extends Controller{
                 if($status){
                     $obj->status = true;
                     $obj->message="Successfully added";
-                    $this->apiSendResponse($obj);
+                    return $this->apiSendResponse($obj);
                 }
                 else{
                     $obj->status = false;
                     $obj->message="Adding disease failed";
-                    $this->apiSendResponse($obj);
+                    return $this->apiSendResponse($obj);
                 }
             }
             elseif ($function_name == "update_disease"){
@@ -189,13 +189,13 @@ class API_controller extends Controller{
                 if($status){
                     $obj->status = true;
                     $obj->message="Successfully added the details";
-                    $this->apiSendResponse($obj);
+                    return $this->apiSendResponse($obj);
 
                 }
                 else{
                     $obj->status = false;
                     $obj->message="Adding details failed";
-                    $this->apiSendResponse($obj);
+                    return $this->apiSendResponse($obj);
                 }
             }
             elseif ($function_name == "location_disease"){
