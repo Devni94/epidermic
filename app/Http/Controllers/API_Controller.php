@@ -65,6 +65,7 @@ class API_controller extends Controller{
         if ($this->isUserExists($email)){
             $obj = new \stdClass();
             $obj->message = "Email address already exists";
+            $obj->status = false;
 
             return $this->apiSendResponse($obj);
         }
@@ -163,20 +164,29 @@ class API_controller extends Controller{
                 $disease_report = new Report_Controller();
                 $status = $disease_report->add_Report_Disease($registerData,$email);
                 if($status){
-                    $this->responseObj("Successfully added");
+                    $obj->status = true;
+                    $obj->message="Successfully added";
+                    $this->apiSendResponse($obj);
                 }
                 else{
-                    $this->responseObj("Adding disease failed");
+                    $obj->status = false;
+                    $obj->message="Adding disease failed";
+                    $this->apiSendResponse($obj);
                 }
             }
             elseif ($function_name == "update_disease"){
                 $details = new Disease_Controller();
                 $status = $details->update_disease($registerData,$email);
                 if($status){
-                    $this->responseObj("Successfully added the details");
+                    $obj->status = true;
+                    $obj->message="Successfully added the details";
+                    $this->apiSendResponse($obj);
+
                 }
                 else{
-                    $this->responseObj("Adding details failed");
+                    $obj->status = false;
+                    $obj->message="Adding details failed";
+                    $this->apiSendResponse($obj);
                 }
             }
             elseif ($function_name == "location_disease"){
@@ -194,6 +204,7 @@ class API_controller extends Controller{
 
                 }
                 $obj->data = $disease_array;
+                $obj->status=true;
                 return $this->apiSendResponse($obj);
 
             }
@@ -217,6 +228,7 @@ class API_controller extends Controller{
                     $disease_details[]=$temp;
                 }
                 $obj->data = $disease_details;
+                $obj->status=true;
                 return $this->apiSendResponse($obj);
 
             }
@@ -234,6 +246,7 @@ class API_controller extends Controller{
                     $disease_unfilled[]=$temp;
                 }
                 $obj->data = $disease_unfilled;
+                $obj->status=true;
                 return $this->apiSendResponse($obj);
             }
         }
